@@ -66,6 +66,6 @@ class PluginMonsterWM(Worker):
                             col = self._color_text
                         if int(desk.urgent):
                             col = self._err_text
-                        # fg color + bg color + window icon + workspace icon
+                        # active windows icon + workspace icon
                         r += col("{}{} ".format(ic, ws))
                     return (self.__qualname__, "{} {}".format(r, tm))

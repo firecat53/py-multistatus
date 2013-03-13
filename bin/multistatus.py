@@ -25,7 +25,6 @@ from subprocess import Popen, PIPE
 import plugins
 from lib import config
 
-# TODO Configuration file?
 # TODO network speed
 # TODO put in initial data for instant display on start
 # TODO music display
@@ -55,7 +54,7 @@ class Statusbar():
                 cidx = 0
             elif config.general.right and section in config.general.right and ridx:
                 self.output['right'] = config.bar.right_sym
-                cidx = 0
+                ridx = 0
             self.output[cur_cls] = ""
 
     def _start_threads(self):

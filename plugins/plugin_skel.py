@@ -16,18 +16,17 @@ You should have received a copy of the GNU General Public License along with
 Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-import psutil
 from .worker import Worker
 
 
-class PluginLoadAvg(Worker):
-    """Display system load average.
+class Plugin<name>(Worker):
+    """New plugin
 
     """
     def __init__(self, **kwargs):
         Worker.__init__(self, **kwargs)
 
     def _update_data(self):
-        lavg = [str(i) for i in psutil.os.getloadavg()]
-        out = self._color_text(" ".join(lavg), fg=self.cfg.load_avg.color_fg)
+        new = get new data (string)
+        out = self._color_text(new, fg=self.cfg.<name>.color_fg, bg=self.cfg.<name>.color_bg)
         return (self.__qualname__, self._out_format(out))

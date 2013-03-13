@@ -56,6 +56,13 @@ class Worker(Thread):
             bg = "{}{}".format(self.cfg.bar.bg_sym, getattr(self.cfg.bar, bg))
         return "{}{}{}{}".format(fg, bg, text, self.cfg.bar.reset_sym)
 
+    def _out_format(self, text):
+        """Add the separator to the output text.
+
+        """
+        return "{}{}".format(self.cfg.bar.separator, text)
+
+
     def run(self):
         while True:
             self.data = self._update_data()

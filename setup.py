@@ -27,7 +27,7 @@ setup(name="py-multistatus",
       description="A multi-interval statusbar information script for use with statusbars like bar and dzen",
       long_description=(open('README.rst').read()),
       packages=['lib', 'plugins'],
-      scripts=['bin/multistatus.py'],
+      scripts=['bin/multistatus.py', 'bin/monsterstart.py'],
       classifiers=[
           'Programming Language :: Python :: 3',
           'Operating System :: POSIX',

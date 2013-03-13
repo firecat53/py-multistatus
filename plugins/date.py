@@ -29,5 +29,5 @@ class PluginDate(Worker):
 
     def _update_data(self):
         now = psutil.time.strftime("%a %d %b %H:%M")
-        return (self.__qualname__,
-                ":: {} ".format(self._color_text(now, fg='green')))
+        out = self._color_text(now, fg=self.cfg.date.color_fg)
+        return (self.__qualname__, self._out_format(out))

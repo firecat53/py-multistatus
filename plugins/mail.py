@@ -43,8 +43,9 @@ class PluginMailAndWeather(Worker):
         if True in mail.values():
             syms = " ".join([i[0] for i in self.accounts if
                              mail[i] is True])
-            out = ":: {}".format(self._sel_text("Mail {}".format(syms)))
+            out = self._sel_text("Mail {}".format(syms))
         else:
             with open(psutil.os.path.expanduser(self.cfg.mail.weather)) as f:
-                out = ":: {} ".format(self._color_text(f.readlines()[0].strip(), 'blue'))
-        return (self.__qualname__, out)
+                out = self._color_text(f.readlines()[0].strip(),
+                                       fg=self.cfg.mail.color_fg)
+        return (self.__qualname__, self._out_format(out))

@@ -35,12 +35,16 @@ class PluginDiskUsage(Worker):
             if use > int(self.cfg.disk_usage.disk_use_alert):
                 out.append(self._err_text("{} {}% ".format(disk, use)))
             elif use > int(self.cfg.disk_usage.disk_use_warn):
+                out.append(self._sel_text("{} {}% ".format(disk, use)))
+            elif self.cfg.disk_usage.disk_use_norm == 'True':
                 out.append(self._color_text("{} {}% ".format(disk, use),
-                                            fg='black', bg='yellow'))
+                                            fg=self.cfg.disk_usage.color_fg,
+                                            bg=self.cfg.disk_usage.color_bg))
             else:
                 out.append("")
         if not "".join(out):
-            out = []
+            out = ""
         else:
-            out.insert(0, ":: ")
-        return (self.__qualname__, "".join(out))
+            out = self._out_format("".join(out))
+
+        return (self.__qualname__, out)

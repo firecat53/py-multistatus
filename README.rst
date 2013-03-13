@@ -1,2 +1,59 @@
-py-multistatus
+py_multistatus
 ==============
+
+Statusbar information script with configurable update intervals for each block of information. Designed for window managers using a separate bar such as LemonBoy's `bar <https://github.com/LemonBoy/bar>`_, Moetune's `some_sorta_bar <https://github.com/LemonBoy/bar>`_, or `dzen <https://github.com/robm/dzen>`_. Information is generated and piped to the bar input. A configuration file is included, and plugins can easily be added if desired. Plugins (so far) include:
+
+* Monsterwm desktop status display
+* Date/time
+* Load average
+* New mail notifier for maildir(s) + weather display
+* Disk usage warnings
+* Battery status display
+
+Idea and code based heavily on `py3status <https://github.com/kaszak/py3status>`_. Much thanks to kaskak, as I studied his code intensely before I started. I had no prior experience with threading/queue/fifo before starting this project!
+
+Scott Hansen <firecat4153@gmail.com>
+
+Features:
+---------
+
+* Python 3.x
+* Use less CPU cycles for infrequently needed information updates
+* Configurable for different statusbars (bar, some_sorta_bar, etc.)
+* Easily add new plugins (see plugin_skel.py in the plugins directory).
+* Includes a python monsterstart.py script to start monsterwm and pipe its desktop output to a FIFO for reading by py-multistatus.
+
+Requires: 
+---------
+
+* Python 3+
+* psutil
+* An installed statusbar (bar, some_sorta_bar, etc.)
+
+Installation:
+-------------
+
+* `Archlinux AUR <link here>`_
+* ``# python setup.py install``  OR
+* ``$ python setup.py install --user``
+
+License:
+--------
+
+* GPL v3+
+
+Usage:
+------
+
+* Copy configuration file status.cfg from /usr/share/py-multistatus to ~/.config/py-multistatus and edit. Make sure the bar executable and all the formatting symbols are correct for the bar you are using.
+* Ensure mail accounts and directories are correct. If you want the weather displayed while there are no mail notifications, create a text file ~/.weather with the weather add there however you like. The *top line* of the file will be displayed.
+* Add ``multistatus.py &`` to ~/.xinitrc before the ``exec <windowmanager`` line (or before ``/path/to/monsterstart.py``)
+* The bar is automatically started by multistatus.py
+
+TODO:
+-----
+
+1. Add option to periodically update the weather
+2. Volume indication. Maybe volume controls?
+3. Network up/down speed
+4. MPD/music displays.
