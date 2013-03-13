@@ -9,6 +9,7 @@ Statusbar information script with configurable update intervals for each block o
 * New mail notifier for maildir(s) + weather display
 * Disk usage warnings
 * Battery status display
+* Network up/down state and upload/download speed
 
 Idea and code based heavily on `py3status <https://github.com/kaszak/py3status>`_. Much thanks to kaskak, as I studied his code intensely before I started. I had no prior experience with threading/queue/fifo before starting this project!
 
@@ -56,11 +57,13 @@ Usage:
 * Ensure mail accounts and directories are correct. If you want the weather displayed while there are no mail notifications, create a text file ~/.weather with the weather add there however you like. The *top line* of the file will be displayed.
 * Add ``multistatus.py &`` to ~/.xinitrc before the ``exec <windowmanager`` line (or before ``/path/to/monsterstart.py``)
 * The bar is automatically started by multistatus.py
+* If using monsterstart.py, copy it someplace into your $PATH
 
 TODO:
 -----
 
-1. Add option to periodically update the weather
+1. Add option to periodically update the weather?
 2. Volume indication. Maybe volume controls?
-3. Network up/down speed
-4. MPD/music displays.
+3. MPD/music displays.
+4. Possible inotify support for file-based information?
+5. Put in initial data for instant display on start

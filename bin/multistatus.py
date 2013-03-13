@@ -25,11 +25,6 @@ from subprocess import Popen, PIPE
 import plugins
 from lib import config
 
-# TODO network speed
-# TODO put in initial data for instant display on start
-# TODO music display
-# TODO move weather.sh from crontab into here?
-
 sections = "{} {} {}".format(config.general.left,
                              config.general.center,
                              config.general.right).split()
