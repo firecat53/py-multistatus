@@ -29,5 +29,6 @@ class PluginLoadAvg(Worker):
 
     def _update_data(self):
         lavg = [str(i) for i in psutil.os.getloadavg()]
-        out = self._color_text(" ".join(lavg), fg=self.cfg.load_avg.color_fg)
+        out = "{}{}".format(self.cfg.load_avg.icon, " ".join(lavg))
+        out = self._color_text(out, fg=self.cfg.load_avg.color_fg)
         return (self.__qualname__, self._out_format(out))

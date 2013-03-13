@@ -31,7 +31,7 @@ class PluginBattery(Worker):
             status = f.readline().strip()
         with open(self.cfg.battery.batt_charge) as f:
             capacity = int(f.readline().strip())
-            capacity_str = "{} {}%".format(self.cfg.battery.icon,
+            capacity_str = "{}{}".format(self.cfg.battery.icon,
                                           str(capacity))
         if status == "Discharging" and capacity > 10:
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_bg,

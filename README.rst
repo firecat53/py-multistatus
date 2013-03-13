@@ -46,6 +46,13 @@ Usage:
 ------
 
 * Copy configuration file status.cfg from /usr/share/py-multistatus to ~/.config/py-multistatus and edit. Make sure the bar executable and all the formatting symbols are correct for the bar you are using.
+* Note: If using 'bar', it seems that the fallback font width should be set the same size as the fonts for font-icons to work right, like::
+
+    #define BAR_FONT "-*-stlarch-medium-r-normal-*-16-*-*-*-c-*-iso10646-1", \
+                     "-*-terminus-medium-r-normal-*-16-*-*-*-c-*-iso10646-1"
+    /* Some fonts don't set the right width for some chars, pheex it */
+    #define BAR_FONT_FALLBACK_WIDTH 16
+
 * Ensure mail accounts and directories are correct. If you want the weather displayed while there are no mail notifications, create a text file ~/.weather with the weather add there however you like. The *top line* of the file will be displayed.
 * Add ``multistatus.py &`` to ~/.xinitrc before the ``exec <windowmanager`` line (or before ``/path/to/monsterstart.py``)
 * The bar is automatically started by multistatus.py
