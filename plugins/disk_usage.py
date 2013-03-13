@@ -42,9 +42,5 @@ class PluginDiskUsage(Worker):
                                             bg=self.cfg.disk_usage.color_bg))
             else:
                 out.append("")
-        if not "".join(out):
-            out = ""
-        else:
-            out = self._out_format("".join(out))
 
-        return (self.__qualname__, out)
+        return (self.__qualname__, self._out_format("".join(out)))

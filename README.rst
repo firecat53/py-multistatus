@@ -59,6 +59,11 @@ Usage:
 * The bar is automatically started by multistatus.py
 * If using monsterstart.py, copy it someplace into your $PATH
 
+ISSUES:
+-------
+
+* Some stlarch font icons (higher numbers) cause problems with the display with 'bar'
+
 TODO:
 -----
 
@@ -67,3 +72,4 @@ TODO:
 3. MPD/music displays.
 4. Possible inotify support for file-based information?
 5. Put in initial data for instant display on start
+6. Memory usage

@@ -60,7 +60,10 @@ class Worker(Thread):
         """Add the separator to the output text.
 
         """
-        return "{}{}".format(self.cfg.bar.separator, text)
+        if not text:
+            return ""
+        else:
+            return "{}{}".format(self.cfg.bar.separator, text)
 
 
     def run(self):
