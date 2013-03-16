@@ -72,4 +72,3 @@ TODO:
 3. MPD/music displays.
 4. Possible inotify support for file-based information?
 5. Put in initial data for instant display on start
-6. Memory usage

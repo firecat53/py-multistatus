@@ -35,15 +35,21 @@ class Worker(Thread):
 
     def _sel_text(self, text):
         # Wrap string with selection color, and reset to normal fg color at the end
+        if not text:
+            return ""
         return "{}{}{}{}".format(self.cfg.bar.sel_fg, self.cfg.bar.sel_bg,
                                  text, self.cfg.bar.reset_sym)
 
     def _err_text(self, text):
         # Wrap string with error color, and reset to normal fg color at the end
+        if not text:
+            return ""
         return "{}{}{}{}".format(self.cfg.bar.err_fg, self.cfg.bar.err_bg,
                                  text, self.cfg.bar.reset_sym)
 
     def _color_text(self, text, fg=None, bg=None):
+        if not text:
+            return ""
         if fg is None:
             fg = self.cfg.bar.norm_fg
         if bg is None:
