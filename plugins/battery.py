@@ -44,9 +44,11 @@ class PluginBattery(Worker):
             capacity_str = "{} {}".format(self.cfg.battery.batt_icon,
                                           str(capacity))
             out = self._err_text(capacity_str)
-        else:
+        elif status == "Charging":
             capacity_str = "{} {}".format(self.cfg.battery.ac_icon,
                                          str(capacity))
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_fg,
                                    bg=self.cfg.battery.color_bg)
+        else:
+            out = ""
         return (self.__qualname__, self._out_format(out))

@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License along with
 Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-import psutil
 from .worker import Worker
 from os.path import expanduser
 from subprocess import Popen, PIPE
@@ -88,8 +87,7 @@ class PluginMusic(Worker):
 
         """
         for player in self.players:
-            pl = psutil.process_iter()
-            if [i.name for i in pl if player in i.name]:
+            if Popen(["pgrep", player], stdout=PIPE).communicate()[0]:
                 return getattr(self, "_{}".format(player))()
 
     def _update_data(self):
