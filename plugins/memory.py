@@ -30,7 +30,7 @@ class PluginMemory(Worker):
 
     def _update_data(self):
         mem = int(virtual_memory().percent)
-        out = "{}{}%".format(self.cfg.memory.icon, str(mem))
+        out = "{} {}%".format(self.cfg.memory.icon, str(mem))
         if mem > self.high_alert:
             out = self._err_text(out)
         elif mem > self.high_warn:

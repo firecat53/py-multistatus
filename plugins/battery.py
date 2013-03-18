@@ -31,14 +31,22 @@ class PluginBattery(Worker):
             status = f.readline().strip()
         with open(self.cfg.battery.batt_charge) as f:
             capacity = int(f.readline().strip())
-            capacity_str = "{}{}".format(self.cfg.battery.icon,
-                                          str(capacity))
-        if status == "Discharging" and capacity > 10:
+        if status == "Discharging" and capacity > int(self.cfg.battery.warn):
+            capacity_str = "{} {}".format(self.cfg.battery.batt_icon,
+                                         str(capacity))
+            out = self._color_text(capacity_str, fg=self.cfg.battery.color_fg)
+        elif status == "Discharging" and capacity > int(self.cfg.battery.low):
+            capacity_str = "{} {}".format(self.cfg.battery.batt_icon,
+                                         str(capacity))
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_bg,
                                    bg=self.cfg.battery.color_fg)
-        elif capacity < 10:
+        elif status == "Discharging" and capacity <= int(self.cfg.battery.low):
+            capacity_str = "{} {}".format(self.cfg.battery.batt_icon,
+                                          str(capacity))
             out = self._err_text(capacity_str)
         else:
+            capacity_str = "{} {}".format(self.cfg.battery.ac_icon,
+                                         str(capacity))
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_fg,
                                    bg=self.cfg.battery.color_bg)
         return (self.__qualname__, self._out_format(out))

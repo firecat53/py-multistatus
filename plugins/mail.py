@@ -43,7 +43,7 @@ class PluginMailAndWeather(Worker):
         if sum(mail.values()) > 0:
             vals = [str(i) for i in mail.values()]
             counts = ":".join(vals)
-            out = self._color_text(" {}{}".format(self.cfg.mail.icon, counts),
+            out = self._color_text(" {} {}".format(self.cfg.mail.icon, counts),
                                    fg=self.cfg.mail.color_bg,
                                    bg=self.cfg.mail.color_fg)
         else:

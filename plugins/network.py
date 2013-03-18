@@ -76,7 +76,7 @@ class PluginNetwork(Worker):
             down = self._round((new_down - old_down) /
                             (1024 * int(self.cfg.network.interval)))
             self.old = self.new
-            out = "{}{}{:.0f} {}{:.0f}".format(self.interfaces[interface],
+            out = "{} {}{:.0f} {}{:.0f}".format(self.interfaces[interface],
                                                self.cfg.network.up_icon, up,
                                                self.cfg.network.down_icon, down)
         else:
