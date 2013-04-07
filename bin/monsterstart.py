@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-"""This startwm.py script starts monsterwm separately from the
-statusbar. This allows the statusbar script to be restarted without
-restarting the entire window manager. The output from monsterwm
-is written to a fifo
+"""This startwm.py script starts monsterwm and the statusbar. The output from
+monsterwm is written to a fifo
 
 """
 from os import mkfifo, unlink
@@ -11,6 +9,7 @@ from subprocess import Popen, PIPE
 
 fifo = '/tmp/monsterwm.fifo'
 wm = 'monsterwm'
+bar = 'multistatus'
 
 if not exists(fifo):
     mkfifo(fifo)
@@ -18,6 +17,7 @@ if not exists(fifo):
 # Monsterwm exit code 0 for restart, 1 for quit
 ret_code = 0
 while not ret_code:
+    Popen(bar, stdin=PIPE, stdout=PIPE)
     mw = Popen(wm, stdout=PIPE)
     res = mw.stdout.readline()
     with open(fifo, 'w') as f:
