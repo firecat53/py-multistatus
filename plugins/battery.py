@@ -51,4 +51,4 @@ class PluginBattery(Worker):
                                    bg=self.cfg.battery.color_bg)
         else:
             out = ""
-        return (self.__qualname__, self._out_format(out))
+        return (self.__module__, self._out_format(out))

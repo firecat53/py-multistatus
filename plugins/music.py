@@ -103,4 +103,4 @@ class PluginMusic(Worker):
             out = "{} {}".format(play, out)
         out = self._color_text(out, fg=self.cfg.music.color_fg,
                                bg=self.cfg.music.color_bg)
-        return (self.__qualname__, self._out_format(out))
+        return (self.__module__, self._out_format(out))

@@ -43,4 +43,4 @@ class PluginDiskUsage(Worker):
             else:
                 out.append("")
 
-        return (self.__qualname__, self._out_format("".join(out)))
+        return (self.__module__, self._out_format("".join(out)))

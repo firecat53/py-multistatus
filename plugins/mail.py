@@ -50,4 +50,4 @@ class PluginMailAndWeather(Worker):
             with open(psutil.os.path.expanduser(self.cfg.mail.weather)) as f:
                 out = self._color_text(f.readlines()[0].strip(),
                                        fg=self.cfg.mail.color_fg)
-        return (self.__qualname__, self._out_format(out))
+        return (self.__module__, self._out_format(out))

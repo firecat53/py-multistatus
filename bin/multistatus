@@ -50,7 +50,7 @@ class Statusbar():
             elif config.general.right and section in config.general.right and ridx:
                 self.output['right'] = config.bar.right_sym
                 ridx = 0
-            self.output[cur_cls] = ""
+            self.output[cur_plug.__name__] = ""
 
     def _start_threads(self):
         """Create the queue and start all the desired plugin threads.
@@ -70,7 +70,7 @@ class Statusbar():
 
     def run(self):
         self._start_threads()
-        self.bar = Popen(config.general.statusbar, stdin=PIPE)
+        self.bar = Popen(config.general.statusbar, stdin=PIPE, bufsize=0)
         while config.queue:
             id, res = config.queue.get()
             self.output[id] = res

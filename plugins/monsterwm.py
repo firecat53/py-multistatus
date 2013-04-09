@@ -68,4 +68,4 @@ class PluginMonsterWM(Worker):
                             col = self._err_text
                         # active windows icon + workspace icon
                         r += col("{}{} ".format(ic, ws))
-                    return (self.__qualname__, "{} {}".format(r, tm))
+                    return (self.__module__, "{} {}".format(r, tm))

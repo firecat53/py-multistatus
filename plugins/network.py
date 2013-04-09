@@ -82,4 +82,4 @@ class PluginNetwork(Worker):
         else:
             out = self._err_text("Network Down")
 
-        return (self.__qualname__, self._out_format(out))
+        return (self.__module__, self._out_format(out))
