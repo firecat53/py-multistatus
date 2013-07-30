@@ -45,7 +45,7 @@ class PluginNetwork(Worker):
 
         """
         try:
-            gethostbyaddr('8.8.8.8')
+            gethostbyaddr('208.67.220.220')
         except herror:
             return False
         else:

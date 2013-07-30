@@ -35,11 +35,13 @@ class PluginMusic(Worker):
         if self.cfg.music.pianobar_status_file:
             self.piano_status = expanduser(self.cfg.music.pianobar_status_file)
 
-    def _mpd(self):
+    def _mpd(self, port=None):
         """Parse MPD play/pause status and music title and artist and display
 
         """
-        cur = Popen(["mpc", "--format", "%artist%***%title%***%album%"],
+        port = port or self.cfg.music.mpd_port
+        cur = Popen(["mpc", "--port", str(port),
+                     "--format", "%artist%***%title%***%album%"],
                     stdout=PIPE).communicate()[0].decode().split("\n")[:-1]
         if len(cur) == 1 and 'error' in cur[0]:
             # MPD daemon not running
@@ -79,7 +81,7 @@ class PluginMusic(Worker):
         return self.cfg.music.play_icon, display
 
     def _mopidy(self):
-        pass
+        return self._mpd(self.cfg.music.mopidy_port)
 
     def _choose_player(self):
         """Determine which music play is currently running. This assumes that
