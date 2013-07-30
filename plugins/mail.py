@@ -17,6 +17,7 @@ Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 import psutil
+from collections import OrderedDict
 from .worker import Worker
 
 
@@ -30,7 +31,7 @@ class PluginMailAndWeather(Worker):
         self.accounts = self.cfg.mail.accounts.split()
 
     def _count_mail(self):
-        new = {}
+        new = OrderedDict()
         for acct in self.accounts:
             new[acct] = len(psutil.os.listdir(
                              psutil.os.path.expanduser(
