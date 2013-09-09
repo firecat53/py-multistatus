@@ -55,13 +55,23 @@ class PluginNetwork(Worker):
         """Determine which of the given interfaces is currently up.
 
         """
-        res = Popen(["ip", "addr"], stdout=PIPE).communicate()[0].decode().split('\n')
+        res = Popen(["ip", "addr"],
+                    stdout=PIPE).communicate()[0].decode().split('\n')
         try:
             res = [line for line in res if 'LOOPBACK' not in line and
                    (' UP ' in line or ',UP,' in line)][0]
             return [i for i in self.interfaces if i in res][0]
         except IndexError:
             return None
+
+    def _check_vpn(self):
+        """Determine if VPN is up or down.
+
+        """
+        if Popen(["pgrep", "openvpn"], stdout=PIPE).communicate()[0]:
+            return True
+        else:
+            return False
 
     def _update_data(self):
         interface = self._get_interface()
@@ -74,11 +84,19 @@ class PluginNetwork(Worker):
             up = self._round((new_up - old_up) /
                             (1024 * int(self.cfg.network.interval)))
             down = self._round((new_down - old_down) /
-                            (1024 * int(self.cfg.network.interval)))
+                               (1024 * int(self.cfg.network.interval)))
             self.old = self.new
-            out = "{} {}{:.0f} {}{:.0f}".format(self.interfaces[interface],
-                                               self.cfg.network.up_icon, up,
-                                               self.cfg.network.down_icon, down)
+            net_str = "{} {}{:.0f} {}{:.0f}".format(self.interfaces[interface],
+                                                    self.cfg.network.up_icon,
+                                                    up,
+                                                    self.cfg.network.down_icon,
+                                                    down)
+            if self._check_vpn():
+                out = self._color_text(net_str,
+                                       fg=self.cfg.network.color_vpn_fg,
+                                       bg=self.cfg.network.color_vpn_bg)
+            else:
+                out = net_str
         else:
             out = self._err_text("Network Down")
 
