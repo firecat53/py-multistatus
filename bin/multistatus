@@ -19,6 +19,7 @@ Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 
+import shlex
 from collections import OrderedDict
 from subprocess import Popen, PIPE
 
@@ -32,6 +33,7 @@ sections = "{} {} {}".format(config.general.left,
 plugins.__all__ = sections
 from plugins import *
 
+
 class Statusbar():
     def __init__(self):
         # This whole section is just to initialize an OrderedDict with blank
@@ -40,7 +42,6 @@ class Statusbar():
         lidx = cidx = ridx = 1
         for section in sections:
             cur_plug = getattr(plugins, section)
-            cur_cls = [i for i in dir(cur_plug) if i.startswith('Plugin')][0]
             if config.general.left and section in config.general.left and lidx:
                 self.output['left'] = config.bar.left_sym
                 lidx = 0
@@ -70,7 +71,7 @@ class Statusbar():
 
     def run(self):
         self._start_threads()
-        self.bar = Popen(config.general.statusbar, stdin=PIPE, bufsize=0)
+        self.bar = Popen(shlex.split(config.general.statusbar), stdin=PIPE, bufsize=0)
         while config.queue:
             id, res = config.queue.get()
             self.output[id] = res
