@@ -24,19 +24,21 @@ setup(name="py-multistatus",
       author="Scott Hansen",
       author_email="firecat4153@gmail.com",
       url="http://firecat53.github.com/py-multistatus",
-      description="A multi-interval statusbar information script for use with statusbars like bar and dzen",
+      description=("A multi-interval statusbar information script for use "
+                   "with statusbars like bar and dzen"),
       long_description=(open('README.rst').read()),
       packages=['lib', 'plugins'],
       scripts=['bin/multistatus'],
       classifiers=[
           'Programming Language :: Python :: 3',
           'Operating System :: POSIX',
-          'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+          'License :: OSI Approved :: GNU General Public License v3 '
+          'or later (GPLv3+)',
           'Development Status :: 3 - Alpha',
           'Environment :: System :: Monitoring',
           'Environment :: X11 Applications'],
       data_files=[('share/py-multistatus', ['README.rst',
                                             'COPYING',
                                             'status.cfg',
-                                            'monsterstart.py'])]
+                                            'bin/monsterstart.py'])]
       )
