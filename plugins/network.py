@@ -18,6 +18,7 @@ Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 """
 from .worker import Worker
 from psutil import network_io_counters
+from shutil import which
 from subprocess import Popen, PIPE
 from socket import gethostbyaddr, herror
 
@@ -32,6 +33,7 @@ class PluginNetwork(Worker):
         interfaces = self.cfg.network.interfaces.split()
         iface_icons = self.cfg.network.iface_icons.split()
         self.interfaces = dict(zip(interfaces, iface_icons))
+        self.nmcli_avail = which('nmcli') or False
 
     def _round(self, x, base=5):
         """Round number to nearest 10
@@ -41,37 +43,65 @@ class PluginNetwork(Worker):
 
     def _check_net_status(self):
         """Check if network is attached to internet by checking ability to
-        query google DNS (8.8.8.8)
+        query google DNS (8.8.8.8) or using nmcli output if available.
 
         """
-        try:
-            gethostbyaddr('208.67.220.220')
-        except herror:
-            return False
+        if self.nmcli_avail:
+            res = Popen(["nmcli", "-t", "-f", "STATE", "d"],
+                        stdout=PIPE).communicate()[0].decode()
+            return "connected" in res.split() or False
         else:
-            return True
+            try:
+                gethostbyaddr('208.67.220.220')
+            except herror:
+                return False
+            else:
+                return True
 
     def _get_interface(self):
         """Determine which of the given interfaces is currently up.
 
         """
-        res = Popen(["ip", "addr"],
-                    stdout=PIPE).communicate()[0].decode().split('\n')
-        try:
-            res = [line for line in res if 'LOOPBACK' not in line and
-                   (' UP ' in line or ',UP,' in line)][0]
-            return [i for i in self.interfaces if i in res][0]
-        except IndexError:
-            return None
+        if self.nmcli_avail:
+            res = Popen(["nmcli", "-t", "-f", "DEVICE,STATE", "d"],
+                        stdout=PIPE).communicate()[0]
+            iface = [i.split(":")[0] for i in res.decode().split()
+                     if "connected" in i.split(":")]
+            if iface:
+                return iface[0]
+            else:
+                return None
+        else:
+            res = Popen(["ip", "addr"],
+                        stdout=PIPE).communicate()[0].decode().split('\n')
+            try:
+                res = [line for line in res if 'LOOPBACK' not in line and
+                       (' UP ' in line or ',UP,' in line)][0]
+                return [i for i in self.interfaces if i in res][0]
+            except IndexError:
+                return None
 
     def _check_vpn(self):
         """Determine if VPN is up or down.
 
         """
-        if Popen(["pgrep", "openvpn"], stdout=PIPE).communicate()[0]:
-            return True
+        if self.nmcli_avail:
+            res = Popen(["nmcli", "-t", "-f", "NAME,VPN", "c", "status"],
+                        stdout=PIPE).communicate()[0]
+            id = [i.split(":")[0] for i in res.decode().split()
+                  if i.split(":")[1] == "yes"]
+            if id:
+                res = Popen(["nmcli", "-t", "-f", "VPN",
+                             "c", "status", "id", id[0]],
+                            stdout=PIPE).communicate()[0].decode()
+                return "connected" in res or False
+            else:
+                return False
         else:
-            return False
+            if Popen(["pgrep", "openvpn"], stdout=PIPE).communicate()[0]:
+                return True
+            else:
+                return False
 
     def _update_data(self):
         interface = self._get_interface()
