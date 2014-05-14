@@ -88,8 +88,8 @@ class PluginNetwork(Worker):
         if self.nmcli_avail:
             res = Popen(["nmcli", "-t", "-f", "NAME,VPN", "c", "status"],
                         stdout=PIPE).communicate()[0]
-            id = [i.split(":")[0] for i in res.decode().split()
-                  if i.split(":")[1] == "yes"]
+            id = [i.split(":")[0] for i in res.decode().split('\n')
+                  if i and i.split(":")[1] == "yes"]
             if id:
                 res = Popen(["nmcli", "-t", "-f", "VPN",
                              "c", "status", "id", id[0]],
