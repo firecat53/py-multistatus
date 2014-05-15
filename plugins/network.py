@@ -19,7 +19,7 @@ Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 from .worker import Worker
 from psutil import network_io_counters
 from subprocess import Popen, PIPE
-from socket import gethostbyaddr, herror
+import socket
 
 
 class PluginNetwork(Worker):
@@ -40,16 +40,19 @@ class PluginNetwork(Worker):
         return int(base * round(float(x) / base))
 
     def _check_net_status(self):
-        """Check if network is attached to internet by checking ability to
-        query google DNS (8.8.8.8)
+        """Check if network is attached to internet.
 
         """
         try:
-            gethostbyaddr('208.67.220.220')
-        except herror:
-            return False
-        else:
+            # see if we can resolve the host name -- tells us if there is
+            # a DNS listening
+            host = socket.gethostbyname(self.cfg.network.url_check)
+            # connect to the host -- tells us if the host is actually reachable
+            socket.create_connection((host, 80), 2)
             return True
+        except:
+            pass
+        return False
 
     def _get_interface(self):
         """Determine which of the given interfaces is currently up.
