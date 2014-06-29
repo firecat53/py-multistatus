@@ -51,7 +51,13 @@ class PluginNetwork(Worker):
             socket.create_connection((host, 80), 2)
             return True
         except:
-            pass
+            # Try both these a second time before calling the network down
+            try:
+                host = socket.gethostbyname(self.cfg.network.url_check)
+                socket.create_connection((host, 80), 2)
+                return True
+            except:
+                pass
         return False
 
     def _get_interface(self):
