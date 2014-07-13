@@ -31,7 +31,10 @@ class PluginDiskUsage(Worker):
         out = []
         mounts = [i.mountpoint for i in psutil.disk_partitions()]
         for disk in mounts:
-            use = psutil.disk_usage(disk).percent
+            try:
+                use = psutil.disk_usage(disk).percent
+            except PermissionError:
+                continue
             if use > int(self.cfg.disk_usage.disk_use_alert):
                 out.append(self._err_text("{} {}% ".format(disk, use)))
             elif use > int(self.cfg.disk_usage.disk_use_warn):
