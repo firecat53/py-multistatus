@@ -33,11 +33,11 @@ class PluginBattery(Worker):
             capacity = int(f.readline().strip())
         if status == "Discharging" and capacity > int(self.cfg.battery.warn):
             capacity_str = "{} {}".format(self.cfg.battery.batt_icon,
-                                         str(capacity))
+                                          str(capacity))
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_fg)
         elif status == "Discharging" and capacity > int(self.cfg.battery.low):
             capacity_str = "{} {}".format(self.cfg.battery.batt_icon,
-                                         str(capacity))
+                                          str(capacity))
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_bg,
                                    bg=self.cfg.battery.color_fg)
         elif status == "Discharging" and capacity <= int(self.cfg.battery.low):
@@ -46,7 +46,7 @@ class PluginBattery(Worker):
             out = self._err_text(capacity_str)
         elif status == "Charging":
             capacity_str = "{} {}".format(self.cfg.battery.ac_icon,
-                                         str(capacity))
+                                          str(capacity))
             out = self._color_text(capacity_str, fg=self.cfg.battery.color_fg,
                                    bg=self.cfg.battery.color_bg)
         else:

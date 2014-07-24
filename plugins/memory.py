@@ -19,6 +19,7 @@ Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 from .worker import Worker
 from psutil import virtual_memory
 
+
 class PluginMemory(Worker):
     """Display memory usage percent
 
@@ -30,7 +31,7 @@ class PluginMemory(Worker):
 
     def _update_data(self):
         mem = int(virtual_memory().percent)
-        out = "{} {}%".format(self.cfg.memory.icon, str(mem))
+        out = "{} {}%%".format(self.cfg.memory.icon, str(mem))
         if mem > self.high_alert:
             out = self._err_text(out)
         elif mem > self.high_warn:

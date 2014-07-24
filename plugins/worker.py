@@ -34,7 +34,8 @@ class Worker(Thread):
         self.cfg.queue.put(self.data)
 
     def _sel_text(self, text):
-        # Wrap string with selection color, and reset to normal fg color at the end
+        # Wrap string with selection color, and reset to normal fg color at the
+        # end
         if not text:
             return ""
         return "{}{}{}{}".format(self.cfg.bar.sel_fg, self.cfg.bar.sel_bg,
@@ -50,16 +51,14 @@ class Worker(Thread):
     def _color_text(self, text, fg=None, bg=None):
         if not text:
             return ""
-        if fg is None:
-            fg = self.cfg.bar.norm_fg
-        if bg is None:
-            bg = self.cfg.bar.norm_bg
-        # Wrap text in arbitrary fg/bg colors. Defaults to norm fg, norm bg. Resets
-        # to norm fg, norm bg. Pass the color name as a string, "red"
+        fg = fg or self.cfg.bar.norm_fg
+        bg = bg or self.cfg.bar.norm_bg
+        # Wrap text in arbitrary fg/bg colors. Defaults to norm fg, norm bg.
+        # Resets to norm fg, norm bg.
         if fg != self.cfg.bar.norm_fg:
-            fg = "{}{}".format(self.cfg.bar.fg_sym, getattr(self.cfg.bar, fg))
+            fg = self.cfg.bar.fg_sym.format(fg)
         if bg != self.cfg.bar.norm_bg:
-            bg = "{}{}".format(self.cfg.bar.bg_sym, getattr(self.cfg.bar, bg))
+            bg = self.cfg.bar.bg_sym.format(bg)
         return "{}{}{}{}".format(fg, bg, text, self.cfg.bar.reset_sym)
 
     def _out_format(self, text):
@@ -70,7 +69,6 @@ class Worker(Thread):
             return ""
         else:
             return "{}{}".format(self.cfg.bar.separator, text)
-
 
     def run(self):
         while True:
