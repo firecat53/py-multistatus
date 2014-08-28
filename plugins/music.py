@@ -93,10 +93,11 @@ class PluginMusic(Worker):
                 return getattr(self, "_{}".format(player))()
 
     def _update_data(self):
-        play, disp = self._choose_player()
-        if disp is None:
-            out = play = ""
-        elif len(disp) > int(self.cfg.music.max_width):
+        try:
+            play, disp = self._choose_player()
+        except TypeError:
+            play = disp = ""
+        if disp and len(disp) > int(self.cfg.music.max_width):
             # -3 : 1 for icon, 2 for ..
             out = "{}..".format(disp[:int(self.cfg.music.max_width) - 4])
         else:
