@@ -67,9 +67,8 @@ class PluginNetwork(Worker):
         res = Popen(["ip", "addr"],
                     stdout=PIPE).communicate()[0].decode().split('\n')
         try:
-            res = [line for line in res if 'LOOPBACK' not in line and
-                   (' UP ' in line or ',UP,' in line)][0]
-            return [i for i in self.interfaces if i in res][0]
+            res = [line for line in res if ' UP ' in line or ',UP,' in line]
+            return [i for line in res for i in self.interfaces if i in line][0]
         except IndexError:
             return None
 
@@ -91,7 +90,7 @@ class PluginNetwork(Worker):
             new_down = self.new[interface].bytes_recv
             new_up = self.new[interface].bytes_sent
             up = self._round((new_up - old_up) /
-                            (1024 * int(self.cfg.network.interval)))
+                             (1024 * int(self.cfg.network.interval)))
             down = self._round((new_down - old_down) /
                                (1024 * int(self.cfg.network.interval)))
             self.old = self.new
