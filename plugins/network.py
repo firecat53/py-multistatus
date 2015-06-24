@@ -17,7 +17,7 @@ Py-multistatus.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 from .worker import Worker
-from psutil import network_io_counters
+from psutil import net_io_counters
 from subprocess import Popen, PIPE
 import socket
 
@@ -28,7 +28,7 @@ class PluginNetwork(Worker):
     """
     def __init__(self, **kwargs):
         Worker.__init__(self, **kwargs)
-        self.old = network_io_counters(pernic=True)
+        self.old = net_io_counters(pernic=True)
         interfaces = self.cfg.network.interfaces.split()
         iface_icons = self.cfg.network.iface_icons.split()
         self.interfaces = dict(zip(interfaces, iface_icons))
@@ -84,7 +84,7 @@ class PluginNetwork(Worker):
     def _update_data(self):
         interface = self._get_interface()
         if interface is not None and self._check_net_status() is True:
-            self.new = network_io_counters(pernic=True)
+            self.new = net_io_counters(pernic=True)
             old_down = self.old[interface].bytes_recv
             old_up = self.old[interface].bytes_sent
             new_down = self.new[interface].bytes_recv
