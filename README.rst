@@ -44,7 +44,7 @@ Installation:
 License:
 --------
 
-* GPL v3+
+* MIT
 
 Usage:
 ------
