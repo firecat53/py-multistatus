@@ -1,4 +1,4 @@
-"""Copyright 2013 by Scott Hansen <firecat4153 @gmail.com
+"""Copyright 2016 by Scott Hansen <firecat4153 @gmail.com
 
 This file is part of py-multistatus.
 

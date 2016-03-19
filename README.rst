@@ -11,6 +11,7 @@ Statusbar information script with configurable update intervals for each block o
 * Battery status display
 * Network up/down state and upload/download speed + OpenVPN status
 * Music player status: MPD/Mopidy and Pianobar
+* Current `Watson <http://tailordev.github.io/Watson/>`_ project
 
 Idea and code based heavily on `py3status <https://github.com/kaszak/py3status>`_. Much thanks to kaskak, as I studied his code intensely before I started. I had no prior experience with threading/queue/fifo before starting this project!
 
