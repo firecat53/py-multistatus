@@ -1,3 +1,5 @@
+PROJECT ARCHIVED AND NO LONGER MAINTAINED
+
 py_multistatus
 ==============
 
